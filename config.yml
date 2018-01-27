@@ -1,0 +1,13 @@
+route:
+  group_by: [service,scale]
+  repeat_interval: 5m
+  group_interval: 5m
+  receiver: 'slack'
+receivers:
+  - name: 'slack'
+    slack_configs:
+      - send_resolved: true
+        title: '[{{ .Status | toUpper }}] {{ .GroupLabels.service }} service is in danger!'
+        title_link: 'http://monitor.yourdomain.com/alerts'
+        text: '{{ .CommonAnnotations.summary}}'
+        api_url: 'https://hooks.slack.com/services/1/2/3'
